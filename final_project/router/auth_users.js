@@ -46,24 +46,23 @@ regd_users.post("/login", (req, res) => {
 });
 
 // Ajouter / modifier un commentaire
-regd_users.put("/auth/review/:isbn", (req, res) => {
-  const isbn = req.params.isbn;
-  const review = req.query.review;
+regd_users.put("/auth/review", (req, res) => {
+  const { isbn, review } = req.body;
   const username = req.session.authorization.username;
+
+  if (!isbn || !review) {
+    return res.status(400).json({
+      status: 400,
+      error: "Bad Request",
+      message: "Empty data.",
+    });
+  }
 
   if (!books[isbn]) {
     return res.status(404).json({
       status: 404,
       error: "Not Found",
       message: `No book found with this ISBN "${isbn}".`,
-    });
-  }
-
-  if (!review) {
-    return res.status(400).json({
-      status: 400,
-      error: "Bad Request",
-      message: "Empty data.",
     });
   }
 
@@ -77,9 +76,17 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 });
 
 // Supprimer un commentaire
-regd_users.delete("/auth/review/:isbn", (req, res) => {
-  const isbn = req.params.isbn;
+regd_users.delete("/auth/review", (req, res) => {
+  const { isbn } = req.body;
   const username = req.session.authorization.username;
+
+  if (!isbn) {
+    return res.status(400).json({
+      status: 400,
+      error: "Bad Request",
+      message: "Empty data.",
+    });
+  }
 
   if (!books[isbn]) {
     return res.status(404).json({
@@ -101,7 +108,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
 
   return res.status(200).json({
     status: 200,
-    message: "Review succesfully deleted.",
+    message: "Review successfully deleted.",
     data: { reviews: books[isbn].reviews },
   });
 });
