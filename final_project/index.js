@@ -13,7 +13,7 @@ app.use("/customer", session({ secret: "fingerprint_customer", resave: true, sav
 app.use("/customer/auth/*", function auth(req, res, next) {
     if (req.session.authorization) { // Get the authorization object stored in the session
         token = req.session.authorization['accessToken']; // Retrieve the token from authorization object
-        jwt.verify(token, "access", (err, user) => { // Use JWT to verify token
+        jwt.verify(token, "fingerprint_customer", (err, user) => { // Use JWT to verify token
             if (!err) {
                 req.user = user;
                 next();

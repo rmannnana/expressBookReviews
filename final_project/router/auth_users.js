@@ -5,24 +5,39 @@ const regd_users = express.Router();
 
 let users = [];
 
-const isValid = (username)=>{ //returns boolean
-//write code to check is the username is valid
-}
+const isValid = (username) => {
+  return users.some((user) => user.username === username);
+};
 
-const authenticatedUser = (username,password)=>{ //returns boolean
-//write code to check if username and password match the one we have in records.
-}
+const authenticatedUser = (username, password) => {
+  return users.some(
+    (user) => user.username === username && user.password === password
+  );
+};
 
-//only registered users can login
-regd_users.post("/login", (req,res) => {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+//Uniquement pour les utilisateur déjà inscrits
+regd_users.post("/login", (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ message: "Nom d'utilisateur et mot de passe requis." });
+  }
+
+  if (!authenticatedUser(username, password)) {
+    return res.status(401).json({ message: "Identifiants incorrects." });
+  }
+
+  const token = jwt.sign({ username }, "fingerprint_customer", { expiresIn: "1h" });
+
+  req.session.authorization = { accessToken: token, username };
+
+  return res.status(200).json({ message: "Connexion réussie.", token });
 });
 
-// Add a book review
+// Ajouter un commentaire
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  //code
+  return res.status(300).json({ message: "À implementer" });
 });
 
 module.exports.authenticated = regd_users;
