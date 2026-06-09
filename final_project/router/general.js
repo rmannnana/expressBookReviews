@@ -58,19 +58,21 @@ public_users.get('/author/:author', async function (req, res) {
   }
 });
 
-// Get all books based on title
-public_users.get('/title/:title', function (req, res) {
-  const title = req.params.title.toLowerCase();
+// Get all books based on title — avec async/await
+public_users.get('/title/:title', async function (req, res) {
+  try {
+    const title = req.params.title.toLowerCase();
+    const booksByTitle = await new Promise((resolve, reject) => {
+      const result = Object.values(books).filter(
+        (book) => book.title.toLowerCase() === title
+      );
+      result.length > 0 ? resolve(result) : reject("Aucun livre trouvé pour ce titre.");
+    });
 
-  const booksByTitle = Object.values(books).filter(
-    (book) => book.title.toLowerCase() === title
-  );
-
-  if (booksByTitle.length === 0) {
-    return res.status(404).json({ message: "Aucun livre trouvé pour ce titre." });
+    return res.json(booksByTitle);
+  } catch (err) {
+    return res.status(404).json({ message: err });
   }
-
-  return res.json(booksByTitle);
 });
 
 //  Get book review
