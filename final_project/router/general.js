@@ -15,7 +15,7 @@ public_users.post("/register", (req, res) => {
     return res.status(400).json({
       status: 400,
       error: "Bad Request",
-      message: "Nom d'utilisateur et mot de passe obligatoires.",
+      message: "Username and Password are required.",
     });
   }
 
@@ -23,14 +23,14 @@ public_users.post("/register", (req, res) => {
     return res.status(409).json({
       status: 409,
       error: "Conflict",
-      message: "Ce nom d'utilisateur est déjà pris.",
+      message: "Username already in use.",
     });
   }
 
   users.push({ username, password });
   return res.status(201).json({
     status: 201,
-    message: "Utilisateur enregistré avec succès !",
+    message: "Successful registration !",
   });
 });
 
@@ -47,7 +47,7 @@ public_users.get("/", async function (req, res) {
     return res.status(500).json({
       status: 500,
       error: "Internal Server Error",
-      message: "Impossible de récupérer les livres.",
+      message: "Unable to get books.",
     });
   }
 });
@@ -68,7 +68,7 @@ public_users.get("/isbn/:isbn", async function (req, res) {
       return res.status(404).json({
         status: 404,
         error: "Not Found",
-        message: `Aucun livre trouvé pour l'ISBN "${isbn}".`,
+        message: `No book found with this ISBN "${isbn}".`,
       });
     }
 
@@ -81,7 +81,7 @@ public_users.get("/isbn/:isbn", async function (req, res) {
     return res.status(500).json({
       status: 500,
       error: "Internal Server Error",
-      message: "Erreur lors de la récupération du livre.",
+      message: "Error while getting books.",
     });
   }
 });
@@ -99,7 +99,7 @@ public_users.get("/author/:author", async function (req, res) {
       return res.status(404).json({
         status: 404,
         error: "Not Found",
-        message: `Aucun livre trouvé pour l'auteur "${req.params.author}".`,
+        message: `No book found with this author "${req.params.author}".`,
       });
     }
 
@@ -112,7 +112,7 @@ public_users.get("/author/:author", async function (req, res) {
     return res.status(500).json({
       status: 500,
       error: "Internal Server Error",
-      message: "Erreur lors de la récupération des livres.",
+      message: "Error while getting books.",
     });
   }
 });
@@ -130,7 +130,7 @@ public_users.get("/title/:title", async function (req, res) {
       return res.status(404).json({
         status: 404,
         error: "Not Found",
-        message: `Aucun livre trouvé pour le titre "${req.params.title}".`,
+        message: `No book found with this title "${req.params.title}".`,
       });
     }
 
@@ -143,7 +143,7 @@ public_users.get("/title/:title", async function (req, res) {
     return res.status(500).json({
       status: 500,
       error: "Internal Server Error",
-      message: "Erreur lors de la récupération des livres.",
+      message: "Error while getting books.",
     });
   }
 });
@@ -159,7 +159,7 @@ public_users.get("/review/:isbn", async function (req, res) {
       return res.status(404).json({
         status: 404,
         error: "Not Found",
-        message: `Aucun livre trouvé pour l'ISBN "${isbn}".`,
+        message: `No book found with this ISBN "${isbn}".`,
       });
     }
 
@@ -167,7 +167,7 @@ public_users.get("/review/:isbn", async function (req, res) {
       return res.status(404).json({
         status: 404,
         error: "Not Found",
-        message: "Aucun commentaire pour ce livre.",
+        message: "This book does no yet have review.",
       });
     }
 
@@ -180,7 +180,7 @@ public_users.get("/review/:isbn", async function (req, res) {
     return res.status(500).json({
       status: 500,
       error: "Internal Server Error",
-      message: "Erreur lors de la récupération des avis.",
+      message: "Error whitle getting reviews.",
     });
   }
 });
