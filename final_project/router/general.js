@@ -20,16 +20,11 @@ public_users.post("/register", (req, res) => {
   return res.status(201).json({ message: "Utilisateur enregistré avec succès !" });
 });
 
-// Get the book list available in the shop
+// Get the book list. with Promise
 public_users.get('/', function (req, res) {
-  res.send(JSON.stringify(books));
-  return res.status(300).json({ message: "Books sent." });
-});
+  const getBooks = new Promise((resolve) => resolve(books));
 
-// Get book details based on ISBN
-public_users.get('/isbn/:isbn', function (req, res) {
-  const isbn = req.params.isbn;
-  return res.json(books[isbn]);
+  getBooks.then((data) => res.json(data));
 });
 
 // Get book details based on author
