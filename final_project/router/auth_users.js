@@ -36,8 +36,21 @@ regd_users.post("/login", (req, res) => {
 
 // Ajouter un commentaire
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  //code
-  return res.status(300).json({ message: "À implementer" });
+  const isbn = req.params.isbn;
+  const review = req.query.review;
+  const username = req.session.authorization.username;
+
+  if (!books[isbn]) {
+    return res.status(404).json({ message: "Livre non trouvé." });
+  }
+
+  if (!review) {
+    return res.status(400).json({ message: "L'avis est requis." });
+  }
+
+  books[isbn].reviews[username] = review;
+
+  return res.status(200).json({ message: "Avis ajouté/modifié avec succès.", reviews: books[isbn].reviews });
 });
 
 module.exports.authenticated = regd_users;
