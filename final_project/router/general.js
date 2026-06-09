@@ -173,7 +173,7 @@ public_users.get("/review/:isbn", async function (req, res) {
 
     return res.status(200).json({
       status: 200,
-      message: "OK",
+      message: "Getting reviews is successful.",
       data: book.reviews,
     });
   } catch (err) {

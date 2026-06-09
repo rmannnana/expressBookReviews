@@ -23,7 +23,7 @@ regd_users.post("/login", (req, res) => {
     return res.status(400).json({
       status: 400,
       error: "Bad Request",
-      message: "Nom d'utilisateur et mot de passe requis.",
+      message: "Username and Password are required.",
     });
   }
 
@@ -31,7 +31,7 @@ regd_users.post("/login", (req, res) => {
     return res.status(401).json({
       status: 401,
       error: "Unauthorized",
-      message: "Identifiants incorrects.",
+      message: "Incorrect username or password",
     });
   }
 
@@ -40,7 +40,7 @@ regd_users.post("/login", (req, res) => {
 
   return res.status(200).json({
     status: 200,
-    message: "Connexion réussie.",
+    message: "Login successful",
     data: { token },
   });
 });
@@ -55,7 +55,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     return res.status(404).json({
       status: 404,
       error: "Not Found",
-      message: `Aucun livre trouvé pour l'ISBN "${isbn}".`,
+      message: `No book found with this ISBN "${isbn}".`,
     });
   }
 
@@ -63,7 +63,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     return res.status(400).json({
       status: 400,
       error: "Bad Request",
-      message: "L'avis est requis.",
+      message: "Empty data.",
     });
   }
 
@@ -71,7 +71,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 
   return res.status(200).json({
     status: 200,
-    message: "Avis ajouté/modifié avec succès.",
+    message: "Review successfully added",
     data: { reviews: books[isbn].reviews },
   });
 });
@@ -85,7 +85,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
     return res.status(404).json({
       status: 404,
       error: "Not Found",
-      message: `Aucun livre trouvé pour l'ISBN "${isbn}".`,
+      message: `No book found with this ISBN "${isbn}".`,
     });
   }
 
@@ -93,7 +93,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
     return res.status(404).json({
       status: 404,
       error: "Not Found",
-      message: "Aucun avis à supprimer pour cet utilisateur.",
+      message: "No review on this book.",
     });
   }
 
@@ -101,7 +101,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
 
   return res.status(200).json({
     status: 200,
-    message: "Avis supprimé avec succès.",
+    message: "Review succesfully deleted.",
     data: { reviews: books[isbn].reviews },
   });
 });
