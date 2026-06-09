@@ -27,6 +27,20 @@ public_users.get('/', function (req, res) {
   getBooks.then((data) => res.json(data));
 });
 
+// Get book details based on ISBN, avec async/await
+public_users.get('/isbn/:isbn', async function (req, res) {
+  const isbn = req.params.isbn;
+  const book = await new Promise((resolve, reject) => {
+    books[isbn] ? resolve(books[isbn]) : reject("Livre non trouvé.");
+  });
+
+  try {
+    return res.json(book);
+  } catch (err) {
+    return res.status(404).json({ message: err });
+  }
+});
+
 // Get book details based on author
 public_users.get('/author/:author', function (req, res) {
   const author = req.params.author.toLowerCase();
